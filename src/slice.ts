@@ -8,34 +8,22 @@ import type {RootState} from "./store.ts";
 
 export const registerThunk = createAsyncThunk(
     'auth/register',
-    async (data: TRegister) => {
-        try {
-            return await register((data))
-        } catch (err) {
-            return Promise.reject(err);
-        }
+    async (data: TRegister)=> {
+        return await register(data);
     }
 )
 
 export const loginThunk = createAsyncThunk(
     'auth/login',
     async (data: TLogin) => {
-        try {
-            return await login((data))
-        } catch (err) {
-            return Promise.reject(err);
-        }
+        return await login((data))
     }
 )
 
 export const getProfile = createAsyncThunk(
     'users/profile',
     async (data: string) => {
-        try {
-            return await getProfileApi(data)
-        } catch (err) {
-            return Promise.reject(err);
-        }
+        return await getProfileApi(data)
     }
 )
 
@@ -58,7 +46,16 @@ const initialState: AuthState = {
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {
+        logOut: (state) => {
+            state.user = null;
+            state.accessToken = null;
+            state.refreshToken = null;
+
+            localStorage.removeItem(('accessToken'));
+            localStorage.removeItem(('refreshToken'))
+        }
+    },
     extraReducers: builder => {
         builder
             .addCase(registerThunk.pending, state => {
@@ -76,7 +73,7 @@ export const authSlice = createSlice({
             })
             .addCase(registerThunk.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload as string;
+                state.error = action.error?.message ?? 'Ошибка регистрации!';
             })
             .addCase(getProfile.pending, state => {
                 state.loading = true;
@@ -88,11 +85,29 @@ export const authSlice = createSlice({
             })
             .addCase(getProfile.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload as string;
-            });
+                state.error = action.error?.message ?? 'Ошибка регистрации!';
+            })
+            .addCase(loginThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(loginThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload.user;
+                state.accessToken = action.payload.accessToken;
+                state.refreshToken = action.payload.refreshToken;
+
+                localStorage.setItem('accessToken', action.payload.accessToken);
+                localStorage.setItem('refreshToken', action.payload.refreshToken);
+            })
+            .addCase(loginThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error?.message || 'Ошибка входа';
+            })
     }
 })
 
 
 export const selectUser = (state: RootState) => state.auth.user;
+export const { logOut } = authSlice.actions
 export default authSlice.reducer;
