@@ -19,7 +19,9 @@ export default function ProfilePage() {
         dispatch(getProfile(token))
     }, [dispatch, navigate])
 
-    const {user, loading} = useAppSelector((state) => state.auth)
+    const {user, loading} = useAppSelector((state) => state.auth);
+
+    const authorizedUser = user!;
 
     const handleLogout = () => {
         dispatch(logOut());
@@ -37,21 +39,6 @@ export default function ProfilePage() {
                 color: '#888'
             }}>
                 Загрузка...
-            </div>
-        );
-    }
-
-    if (!user) {
-        return (
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '100vh',
-                fontSize: '18px',
-                color: 'red'
-            }}>
-                Не авторизован
             </div>
         );
     }
@@ -85,11 +72,11 @@ export default function ProfilePage() {
                     color: 'white',
                     fontWeight: 'bold'
                 }}>
-                    {user.name?.[0]?.toUpperCase()}
+                    {authorizedUser.name?.[0]?.toUpperCase()}
                 </div>
 
-                <h2 style={{ margin: 0 }}>{user.name}</h2>
-                <p style={{ margin: 0, color: '#888' }}>{user.email}</p>
+                <h2 style={{ margin: 0 }}>{authorizedUser.name}</h2>
+                <p style={{ margin: 0, color: '#888' }}>{authorizedUser.email}</p>
                 <button onClick={handleLogout} >Выйти</button>
             </div>
         </div>

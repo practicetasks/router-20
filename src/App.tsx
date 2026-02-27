@@ -5,6 +5,7 @@ import type {AppDispatch} from "./store.ts";
 import {type SyntheticEvent, useState} from "react";
 import {loginThunk, registerThunk} from "./slice.ts";
 import {useAppSelector} from "./hooks.ts";
+import {Button} from "./shared/ui/Button/Button.tsx";
 
 export default function App() {
     const dispatch = useDispatch<AppDispatch>();
@@ -49,67 +50,69 @@ export default function App() {
 
     return (
         <>
-            {user ? user.email :
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '100vh',
-                }}>
-                    <form onSubmit={handleRegister} style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '12px',
-                        width: '300px',
-                        padding: '32px',
-                        borderRadius: '12px',
-                        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-                    }}>
-                        <h2 style={{ margin: 0, textAlign: 'center' }}>Вход / Регистрация</h2>
+            <Button>Тестовая кнопка</Button>
+            <Button variant='secondary'>Secondary кнопка</Button>
+            {/*{user ? user.email :*/}
+            {/*    <div style={{*/}
+            {/*        display: 'flex',*/}
+            {/*        justifyContent: 'center',*/}
+            {/*        alignItems: 'center',*/}
+            {/*        height: '100vh',*/}
+            {/*    }}>*/}
+            {/*        <form onSubmit={handleRegister} style={{*/}
+            {/*            display: 'flex',*/}
+            {/*            flexDirection: 'column',*/}
+            {/*            gap: '12px',*/}
+            {/*            width: '300px',*/}
+            {/*            padding: '32px',*/}
+            {/*            borderRadius: '12px',*/}
+            {/*            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',*/}
+            {/*        }}>*/}
+            {/*            <h2 style={{ margin: 0, textAlign: 'center' }}>Вход / Регистрация</h2>*/}
 
-                        {error && (
-                            <p style={{ color: 'red', margin: 0, fontSize: '14px' }}>{error}</p>
-                        )}
+            {/*            {error && (*/}
+            {/*                <p style={{ color: 'red', margin: 0, fontSize: '14px' }}>{error}</p>*/}
+            {/*            )}*/}
 
-                        <input
-                            onChange={(e) => setEmail(e.target.value)}
-                            type='email'
-                            placeholder='Email'
-                            style={{ padding: '10px', borderRadius: '8px', border: '1px solid #ccc' }}
-                        />
-                        <input
-                            onChange={(e) => setPassword(e.target.value)}
-                            type='password'
-                            placeholder='Пароль'
-                            style={{ padding: '10px', borderRadius: '8px', border: '1px solid #ccc' }}
-                        />
+            {/*            <input*/}
+            {/*                onChange={(e) => setEmail(e.target.value)}*/}
+            {/*                type='email'*/}
+            {/*                placeholder='Email'*/}
+            {/*                style={{ padding: '10px', borderRadius: '8px', border: '1px solid #ccc' }}*/}
+            {/*            />*/}
+            {/*            <input*/}
+            {/*                onChange={(e) => setPassword(e.target.value)}*/}
+            {/*                type='password'*/}
+            {/*                placeholder='Пароль'*/}
+            {/*                style={{ padding: '10px', borderRadius: '8px', border: '1px solid #ccc' }}*/}
+            {/*            />*/}
 
-                        <button type="submit" style={{
-                            padding: '10px',
-                            borderRadius: '8px',
-                            border: 'none',
-                            background: '#4f46e5',
-                            color: 'white',
-                            cursor: 'pointer',
-                            fontWeight: 'bold'
-                        }}>
-                            Регистрация
-                        </button>
+            {/*            <button type="submit" style={{*/}
+            {/*                padding: '10px',*/}
+            {/*                borderRadius: '8px',*/}
+            {/*                border: 'none',*/}
+            {/*                background: '#4f46e5',*/}
+            {/*                color: 'white',*/}
+            {/*                cursor: 'pointer',*/}
+            {/*                fontWeight: 'bold'*/}
+            {/*            }}>*/}
+            {/*                Регистрация*/}
+            {/*            </button>*/}
 
-                        <button type="button" onClick={handleLogin} style={{
-                            padding: '10px',
-                            borderRadius: '8px',
-                            border: '1px solid #4f46e5',
-                            background: 'white',
-                            color: '#4f46e5',
-                            cursor: 'pointer',
-                            fontWeight: 'bold'
-                        }}>
-                            Войти
-                        </button>
-                    </form>
-                </div>
-            }
+            {/*            <button type="button" onClick={handleLogin} style={{*/}
+            {/*                padding: '10px',*/}
+            {/*                borderRadius: '8px',*/}
+            {/*                border: '1px solid #4f46e5',*/}
+            {/*                background: 'white',*/}
+            {/*                color: '#4f46e5',*/}
+            {/*                cursor: 'pointer',*/}
+            {/*                fontWeight: 'bold'*/}
+            {/*            }}>*/}
+            {/*                Войти*/}
+            {/*            </button>*/}
+            {/*        </form>*/}
+            {/*    </div>*/}
+            {/*}*/}
         </>
     );
 }
