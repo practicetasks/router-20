@@ -2,10 +2,11 @@ import "./App.css";
 import {useDispatch} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import type {AppDispatch} from "./store.ts";
-import {type SyntheticEvent, useState} from "react";
-import {loginThunk, registerThunk} from "./slice.ts";
+import {type SyntheticEvent, use, useState} from "react";
+import {loginThunk, logOut, registerThunk} from "./slice.ts";
 import {useAppSelector} from "./hooks.ts";
-import {Button} from "./shared/ui/Button/Button.tsx";
+import {Dropdown} from "./shared/ui/Dropdown/Dropdown.tsx";
+import type {DropdownItem} from "./shared/ui/Dropdown/Dropdown.tsx";
 
 export default function App() {
     const dispatch = useDispatch<AppDispatch>();
@@ -15,6 +16,22 @@ export default function App() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('')
     const navigate = useNavigate();
+    const [open, setOpen] = useState(false)
+
+    const menuItems: DropdownItem[] = [
+        {
+            title: 'Профиль',
+            action: () => navigate('/me')
+        },
+        {
+            title: 'Пойти в гугл',
+            url: 'https://google.kz'
+        },
+        {
+            title: 'Выйти',
+            action: () => dispatch(logOut())
+        }
+    ];
 
 
     const handleRegister = async (e: SyntheticEvent) => {
@@ -31,6 +48,14 @@ export default function App() {
         } catch (error) {
             setError((error as Error)?.message || 'Произошла ошибка при регистрации!!')
         }
+    }
+
+    const openDialog = () => {
+        const dialog = document.querySelector("dialog")
+        setOpen((prevState) => !prevState)
+        if (open) {
+            dialog?.show()
+        } else dialog?.close()
     }
 
     const handleLogin = async (e: SyntheticEvent) => {
@@ -50,8 +75,17 @@ export default function App() {
 
     return (
         <>
-            <Button>Тестовая кнопка</Button>
-            <Button variant='secondary'>Secondary кнопка</Button>
+            <Dropdown items={menuItems} variant={"primary"} header={'Мой аккаунт'}>Я выпадашка</Dropdown>
+            <button id="open" onClick={openDialog}>Open it</button>
+            <dialog style={{
+                alignSelf: 'center',
+                background: 'lightblue',
+                border: 'none',
+                borderRadius: '1rem'}}>
+                <p>
+                    privet
+                </p>
+            </dialog>
             {/*{user ? user.email :*/}
             {/*    <div style={{*/}
             {/*        display: 'flex',*/}
